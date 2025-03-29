@@ -16,14 +16,14 @@
   <h1 align="center">The Wedding</h1>
 
   <p align="center">
-    <strong>Rehan & Maulidan</strong>
+    <strong>Dejan & Ajeng</strong>
     <br />
     <a href="https://ngodingsolusi.github.io/the-wedding-of-rehan-maulidan/">Explore the Invitation ! »</a>
     <br />
     <br />
-    <a href="https://github.com/rayhanyulanda">Rayhan Yulanda</a>
+    <a href="https://github.com/rayhanyulanda">Achmad Dejan Firdianza</a>
     ·
-    <a href="https://github.com/maulidannashuha">Maulidan Nashuha</a>
+    <a href="https://github.com/maulidannashuha">Rah Ajeng Sekaringtyas Sidhi</a>
   </p>
 </div>
 
@@ -39,7 +39,7 @@
 - Music from youtube API
 
 <!-- The wedding -->
-## Maulidan Nashuha <img src="images/readme/man.png" width="30px">
+## Rah Ajeng Sekaringtyas Sidhi <img src="images/readme/man.png" width="30px">
 
 
 
@@ -68,23 +68,23 @@ Reach me around the web :
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
-## Rayhan Yulanda <img src="images/readme/woman.png" width="30px">
+## Achmad Dejan Firdianza <img src="images/readme/woman.png" width="30px">
 
 
 
 Reach me around the web :
 
 <a href="https://linkedin.com/in/rayhanyulanda">
-  <img alt="Rehan's Linkdein" width="22px" src="https://raw.githubusercontent.com/RayhanYulanda/rayhanyulanda/master/assets/icons/linkedin.png" />
+  <img alt="Dejan's Linkdein" width="22px" src="https://raw.githubusercontent.com/RayhanYulanda/rayhanyulanda/master/assets/icons/linkedin.png" />
 </a>
 <a target="_blank" href="https://github.com/rayhanyulanda">
-<img alt="Rehan's Github" width="22px" src="https://raw.githubusercontent.com/RayhanYulanda/rayhanyulanda/master/assets/icons/github.png" />
+<img alt="Dejan's Github" width="22px" src="https://raw.githubusercontent.com/RayhanYulanda/rayhanyulanda/master/assets/icons/github.png" />
 </a>
 <a target="_blank" href="https://www.facebook.com/rayhanyulanda/">
-<img alt="Rehan's Facebook" width="22px" src="https://raw.githubusercontent.com/RayhanYulanda/rayhanyulanda/master/assets/icons/facebook.png" />
+<img alt="Dejan's Facebook" width="22px" src="https://raw.githubusercontent.com/RayhanYulanda/rayhanyulanda/master/assets/icons/facebook.png" />
 </a>
 <a target="_blank" href="https://medium.com/@rayhanyulanda">
-<img alt="Rehan's Medium" width="22px" src="https://raw.githubusercontent.com/RayhanYulanda/rayhanyulanda/master/assets/icons/medium.png" />
+<img alt="Dejan's Medium" width="22px" src="https://raw.githubusercontent.com/RayhanYulanda/rayhanyulanda/master/assets/icons/medium.png" />
 </a>
 
 <p align="right">(<a href="#top">back to top</a>)</p>

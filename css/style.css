@@ -2338,3 +2338,20 @@ fadeIn {  from {
 }
 
 /*# sourceMappingURL=style.css.map */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.item-protocol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  height: 100%; /* Ensure uniform height */
+}
+
+.description {
+  flex-grow: 1; /* This will make all descriptions take up the same space */
+}

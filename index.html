@@ -590,7 +590,7 @@
 				<div class="col-md-8  text-center fh5co-heading">
 					<h2>Love Gift</h2>
 					<span style="color: #bf9b73">
-						Kami mengerti bahwa tidak semua dapat hadir di hari bahagia kami. Kehadiran dan doa restu Anda sudah sangat berarti. <br/>Namun, bagi yang ingin memberikan tanda kasih secara virtual, kami menyediakan opsi Love Gift sebagai bentuk dukungan dan kebahagiaan bersama.
+						Kami memahami bahwa tidak semua dapat hadir di hari bahagia kami. Doa dan restu Anda sudah sangat berarti. Sebagai bentuk kemudahan, berikut kami sertakan opsi Love Gift bagi yang ingin berbagi tanda kasih.
 						<!-- Kami memahami bahwa tidak semua orang dapat hadir di hari bahagia kami. Kehadiran dan doa restu Anda sudah sangat berarti bagi kami.<br/> -->
 						<!-- Namun, bagi yang ingin memberikan tanda kasih secara virtual, kami menyediakan opsi Love Gift sebagai bentuk dukungan dan kebahagiaan bersama -->
 					</span>
@@ -688,80 +688,80 @@
 	const weddingQuery = query(weddingCollection, orderBy("timestamp"));
 
 	$(document).ready(function () {
-	// Handle form submission
-	$('button#testimonial-button').on('click', function () {
-		let name = $('#form-name').val().trim();
-		// Get the value of the selected radio button (true/false)
-		let presence = $('input[name="form-presence"]:checked').val() === 'true'; // Converts string 'true' to boolean
-		let message = $('#form-message').val().trim();
+		// Handle form submission
+		$('button#testimonial-button').on('click', function () {
+			let name = $('#form-name').val().trim();
+			// Get the value of the selected radio button (true/false)
+			let presence = $('input[name="form-presence"]:checked').val() === 'true'; // Converts string 'true' to boolean
+			let message = $('#form-message').val().trim();
 
-		// Basic validation
-		if (!name || typeof presence !== 'boolean' || !message) {
-		alert('Tolong isi semua kolom');
-		return;
-		}
+			// Basic validation
+			if (!name || typeof presence !== 'boolean' || !message) {
+			alert('Tolong isi semua kolom');
+			return;
+			}
 
-		// Get the current timestamp
-		let timestamp = new Date();
+			// Get the current timestamp
+			let timestamp = new Date();
 
-		// Reference to Firestore "wedding" collection
-		const commentsRef = collection(db, "wedding");
+			// Reference to Firestore "wedding" collection
+			const commentsRef = collection(db, "wedding");
 
-		// Add data to Firestore
-		addDoc(commentsRef, {
-		name: name,
-		presence: presence,  // Now stored as true/false
-		message: message,
-		timestamp: timestamp,
-		})
-		.then(() => {
-			console.log("Comment added successfully!");
-			// Clear form after submission
-			$('#form-name').val('');
-			$('input[name="form-presence"]').prop('checked', false);
-			$('#form-message').val('');
-		})
-		.catch((error) => {
-			console.error("Error adding comment: ", error);
+			// Add data to Firestore
+			addDoc(commentsRef, {
+			name: name,
+			presence: presence,  // Now stored as true/false
+			message: message,
+			timestamp: timestamp,
+			})
+			.then(() => {
+				console.log("Comment added successfully!");
+				// Clear form after submission
+				$('#form-name').val('');
+				$('input[name="form-presence"]').prop('checked', false);
+				$('#form-message').val('');
+			})
+			.catch((error) => {
+				console.error("Error adding comment: ", error);
+			});
+		});
+
+		console.log("Fetching data from Firebase...");
+		console.log(db);
+
+			// Fetch and display comments from Firestore
+		const commentsContainer = $('#comments');
+		const commentsList = $(".list-group");
+
+		// Fetch wedding comments from Firestore
+		const commentsQuery = query(collection(db, "wedding"), orderBy("timestamp", "desc"));
+		onSnapshot(commentsQuery, (snapshot) => {
+			commentsList.empty(); // Clear previous data
+
+			snapshot.forEach(doc => {
+			let data = doc.data();
+			let user = data.name || "Anonymous";
+			let label = data.presence ? "Datang" : "Berhalangan";  // Display 'Datang' for true and 'Berhalangan' for false
+			let labelClass = data.presence ? "success" : "danger";  // Class for Bootstrap label
+			let message = data.message || "No Message";
+
+			let commentHtml = `
+				<a class="list-group-item" style="margin: 1em 0">
+				<div class="name">
+					<span class="strong" style="font-size: 24px">${user}</span>
+					<span class="label label-${labelClass}" style="position: relative; top: -5px; right: -5px;">${label}</span>
+				</div>
+				<hr style="margin-top: 0;">
+				<div class="comment">${message}</div>
+				</a>
+			`;
+			commentsList.append(commentHtml);
+			});
+
+			// Hide loading spinner after data is loaded
+			commentsContainer.attr("data-loading", "false");
 		});
 	});
-
-    console.log("Fetching data from Firebase...");
-    console.log(db);
-
-    // Fetch and display comments from Firestore
-  const commentsContainer = $('#comments');
-  const commentsList = $(".list-group");
-
-  // Fetch wedding comments from Firestore
-  const commentsQuery = query(collection(db, "wedding"), orderBy("timestamp", "desc"));
-  onSnapshot(commentsQuery, (snapshot) => {
-    commentsList.empty(); // Clear previous data
-
-    snapshot.forEach(doc => {
-      let data = doc.data();
-      let user = data.name || "Anonymous";
-      let label = data.presence ? "Datang" : "Berhalangan";  // Display 'Datang' for true and 'Berhalangan' for false
-	  let labelClass = data.presence ? "success" : "danger";  // Class for Bootstrap label
-      let message = data.message || "No Message";
-
-      let commentHtml = `
-        <a class="list-group-item" style="margin: 1em 0">
-          <div class="name">
-            <span class="strong" style="font-size: 24px">${user}</span>
-            <span class="label label-${labelClass}" style="position: relative; top: -5px; right: -5px;">${label}</span>
-          </div>
-          <hr style="margin-top: 0;">
-          <div class="comment">${message}</div>
-        </a>
-      `;
-      commentsList.append(commentHtml);
-    });
-
-    // Hide loading spinner after data is loaded
-    commentsContainer.attr("data-loading", "false");
-  });
-});
 
   </script>
 

@@ -479,7 +479,7 @@
 								</div>
 								<div class="description">
 									<h3>Ucapan & Doa</h3>
-									<p>Jangan lupa mendoakan kebaikan bagi pengantin baru yaa</p>
+									<p>Jangan lupa mendoakan kebaikan bagi pengantin baru yaa.</p>
 								</div>
 							</div>
 						</div>
@@ -561,8 +561,8 @@
 					</div>
 			
 					<!-- Message List -->
-					<div class="row animate-box">
-						<div class="col-md-8 offset-md-2">
+					<div class="row animate-box d-none d-sm-block d-md-none">
+						<div class="col-md-8 col-sm-12 col-xs-12 offset-md-2 mx-auto">
 							<div class="list-group" id="comments">
 								<!-- Messages will be dynamically inserted here -->
 							</div>
@@ -570,11 +570,12 @@
 					</div>
 			
 					<!-- Pagination Controls -->
-					<div class="row animate-box">
-						<div class="col-md-8 offset-md-2 text-center">
+					<div class="row">
+						<div class="col-md-12 text-center">
 							<div id="pagination">
-								<button id="prevPage" class="btn btn-secondary me-2" disabled>Previous</button>
-								<button id="nextPage" class="btn btn-secondary" disabled>Next</button>
+								<button id="prevPage" class="btn btn-secondary me-2" style="margin: 10px;" disabled>Previous</button>
+								<span id="currentPage">Page 1</span>
+								<button id="nextPage" class="btn btn-secondary ms-2" style="margin: 10px;" disabled>Next</button>
 							</div>
 						</div>
 					</div>
@@ -660,6 +661,275 @@
 
 </body>
 <script type="module">
+	// Import Firebase modules
+	import { 
+		initializeApp 
+	} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+	
+	import { 
+		getFirestore, collection, query, orderBy, 
+		startAfter, endBefore, limit, limitToLast, getDocs, addDoc, onSnapshot
+	} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+	// Firebase config
+	const firebaseConfig = {
+		apiKey: "AIzaSyAtbFpeT0f1TpHZIIQdTkUzIKbmV2y6i0A",
+		authDomain: "d-project-27d9c.firebaseapp.com",
+		projectId: "d-project-27d9c",
+		storageBucket: "d-project-27d9c.firebasestorage.app",
+		messagingSenderId: "1036388638235",
+		appId: "1:1036388638235:web:1b36a3ddb5015cce8ca2be",
+		measurementId: "G-JFZYXBF2LB"
+	};
+
+	// Initialize Firebase
+	const app = initializeApp(firebaseConfig);
+	const db = getFirestore(app);
+	const commentsRef = collection(db, "wedding");
+
+	// Pagination variables
+	let lastVisible = null;
+	let firstVisible = null;
+	let currentPage = 1;
+	const limitSize = 5;
+
+	$('button#testimonial-button').on('click', function () {
+		let name = $('#form-name').val().trim();
+		// Get the value of the selected radio button (true/false)
+		let presence = $('input[name="form-presence"]:checked').val() === 'true'; // Converts string 'true' to boolean
+		let message = $('#form-message').val().trim();
+
+		// Basic validation
+		if (!name || typeof presence !== 'boolean' || !message) {
+		alert('Tolong isi semua kolom');
+		return;
+		}
+
+		// Get the current timestamp
+		let timestamp = new Date();
+
+		// Reference to Firestore "wedding" collection
+		const commentsRef = collection(db, "wedding");
+
+		// Add data to Firestore
+		addDoc(commentsRef, {
+		name: name,
+		presence: presence,  // Now stored as true/false
+		message: message,
+		timestamp: timestamp,
+		})
+		.then(() => {
+			console.log("Comment added successfully!");
+			// Clear form after submission
+			$('#form-name').val('');
+			$('input[name="form-presence"]').prop('checked', false);
+			$('#form-message').val('');
+		})
+		.catch((error) => {
+			console.error("Error adding comment: ", error);
+		});
+	});
+
+	// Function to update page number in UI
+	function updatePageDisplay() {
+		$("#currentPage").text(`Page ${currentPage}`);
+	}
+
+	// Function to render comments
+	function renderComments(snapshot) {
+		const commentsList = $("#comments");
+		commentsList.empty(); // Clear previous comments
+
+		snapshot.forEach((doc) => {
+			let data = doc.data();
+			let user = data.name || "Anonymous";
+			let label = data.presence ? "Datang" : "Berhalangan";
+			let labelClass = data.presence ? "success" : "danger";
+			let message = data.message || "No Message";
+
+			let commentHtml = `
+				<a class="list-group-item" style="margin: 1em 0">
+				<div class="name">
+					<span class="strong" style="font-size: 24px">${user}</span>
+					<span class="label label-${labelClass}" style="position: relative; top: -5px; right: -5px;">${label}</span>
+				</div>
+				<hr style="margin-top: 0;">
+				<div class="comment">${message}</div>
+				</a>
+			`;
+			commentsList.append(commentHtml);
+		});
+
+		// Disable "Next" button if results are less than limitSize
+		$("#nextPage").prop("disabled", snapshot.size < limitSize);
+	}
+
+	// Fetch first page
+	async function fetchFirstPage() {
+		const firstQuery = query(commentsRef, orderBy("timestamp", "desc"), limit(limitSize));
+		const snapshot = await getDocs(firstQuery);
+
+		onSnapshot(query(commentsRef, orderBy("timestamp", "desc"), limit(5)), (snapshot) => {
+			if (!snapshot.empty) {
+			firstVisible = snapshot.docs[0];
+			lastVisible = snapshot.docs[snapshot.docs.length - 1];
+			renderComments(snapshot);
+			$("#prevPage").prop("disabled", true); // No previous page at start
+			currentPage = 1;
+			updatePageDisplay();
+		}
+			// renderComments(snapshot);
+		});
+
+		
+	}
+
+	// Fetch next page
+	async function fetchNextPage() {
+		if (!lastVisible) return;
+		const nextQuery = query(commentsRef, orderBy("timestamp", "desc"), startAfter(lastVisible), limit(limitSize));
+		const snapshot = await getDocs(nextQuery);
+
+		if (!snapshot.empty) {
+			firstVisible = snapshot.docs[0];
+			lastVisible = snapshot.docs[snapshot.docs.length - 1];
+			renderComments(snapshot);
+			$("#prevPage").prop("disabled", false); // Enable previous
+			currentPage++;
+			updatePageDisplay();
+		} else {
+			$("#nextPage").prop("disabled", true);
+		}
+	}
+
+	// Fetch previous page
+	async function fetchPrevPage() {
+		if (!firstVisible) return;
+		const prevQuery = query(commentsRef, orderBy("timestamp", "desc"), endBefore(firstVisible), limitToLast(limitSize));
+		const snapshot = await getDocs(prevQuery);
+
+		if (!snapshot.empty) {
+			firstVisible = snapshot.docs[0];
+			lastVisible = snapshot.docs[snapshot.docs.length - 1];
+			renderComments(snapshot);
+			$("#nextPage").prop("disabled", false);
+			currentPage--;
+			updatePageDisplay();
+		} else {
+			$("#prevPage").prop("disabled", true);
+		}
+	}
+
+	// Event Listeners
+	$("#nextPage").on("click", fetchNextPage);
+	$("#prevPage").on("click", fetchPrevPage);
+
+	// Load first page on start
+	fetchFirstPage();
+
+</script>
+
+<!-- <script type="module">
+	// Import Firebase modules
+	import { 
+		initializeApp 
+	} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+	
+	import { 
+		getFirestore, collection, query, orderBy, 
+		startAfter, endBefore, limit, limitToLast, getDocs, addDoc, onSnapshot
+	} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+	// Firebase config
+	const firebaseConfig = {
+		apiKey: "AIzaSyAtbFpeT0f1TpHZIIQdTkUzIKbmV2y6i0A",
+		authDomain: "d-project-27d9c.firebaseapp.com",
+		projectId: "d-project-27d9c",
+		storageBucket: "d-project-27d9c.firebasestorage.app",
+		messagingSenderId: "1036388638235",
+		appId: "1:1036388638235:web:1b36a3ddb5015cce8ca2be",
+		measurementId: "G-JFZYXBF2LB"
+	};
+
+	// Initialize Firebase
+	const app = initializeApp(firebaseConfig);
+	const db = getFirestore(app);
+	const commentsRef = collection(db, "wedding");
+
+	// Pagination variables
+	let lastVisible = null;
+	let firstVisible = null;
+	let currentPage = 1;
+	const limitSize = 5;
+
+	// Function to render comments
+	function renderComments(snapshot) {
+		const commentsList = $("#comments");
+		commentsList.empty(); // Clear previous comments
+
+		snapshot.forEach((doc) => {
+			let data = doc.data();
+			let user = data.name || "Anonymous";
+			let label = data.presence ? "Datang" : "Berhalangan";
+			let labelClass = data.presence ? "success" : "danger";
+			let message = data.message || "No Message";
+
+			let commentHtml = `
+				<a class="list-group-item" style="margin: 1em 0">
+					<div class="name">
+						<span class="strong" style="font-size: 24px">${user}</span>
+						<span class="label label-${labelClass}" style="position: relative; top: -5px; right: -5px;">${label}</span>
+					</div>
+					<hr style="margin-top: 0;">
+					<div class="comment">${message}</div>
+				</a>
+			`;
+			commentsList.append(commentHtml);
+		});
+	}
+
+	// Real-time listener for comments (auto-updates on new addition)
+	onSnapshot(query(commentsRef, orderBy("timestamp", "desc"), limit(5)), (snapshot) => {
+		renderComments(snapshot);
+	});
+
+	// Add new comment
+	$('button#testimonial-button').on('click', function () {
+		let name = $('#form-name').val().trim();
+		let presence = $('input[name="form-presence"]:checked').val() === 'true';
+		let message = $('#form-message').val().trim();
+
+		// Basic validation
+		if (!name || typeof presence !== 'boolean' || !message) {
+			alert('Tolong isi semua kolom');
+			return;
+		}
+
+		// Get the current timestamp
+		let timestamp = new Date();
+
+		// Add data to Firestore
+		addDoc(commentsRef, {
+			name: name,
+			presence: presence,  
+			message: message,
+			timestamp: timestamp,
+		})
+		.then(() => {
+			console.log("Comment added successfully!");
+			// Clear form after submission
+			$('#form-name').val('');
+			$('input[name="form-presence"]').prop('checked', false);
+			$('#form-message').val('');
+		})
+		.catch((error) => {
+			console.error("Error adding comment: ", error);
+		});
+	});
+
+
+</script> -->
+<!-- <script type="module">
 	// Import the functions you need from the SDKs you need
 	import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
 	import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
@@ -763,7 +1033,7 @@
 		});
 	});
 
-  </script>
+  </script> -->
 
 <script>
     function copyRekeningAjeng() {

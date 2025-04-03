@@ -2014,6 +2014,23 @@ form label {
   padding: 7em 0;
   position: relative;
 }
+#fh5co-lovegift {
+  padding: 7em 0;
+  position: relative;
+}
+
+#fh5co-lovegift:before{
+  content: " ";
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0.2;
+  background-image: url('../images/background/blue-brush-1.jpg');
+}
+
 #fh5co-health-protocol:before{
   content: " ";
   background-size: cover;
@@ -2243,8 +2260,8 @@ fadeIn {  from {
   position: absolute;
   top: 0;
   z-index: 100;
-  margin-right: -320px;
-  margin-top: -11px;
+  margin-right: -225px;
+  margin-top: -5px;
   width: 30px;
   height: 30px;
   background: #ffffff;

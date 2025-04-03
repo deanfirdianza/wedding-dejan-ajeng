@@ -85,6 +85,15 @@
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
 
+	<!-- Firebase SDK -->
+	<script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+	<!-- Firebase SDK -->
+	<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+
+
 </head>
 <body>
 
@@ -549,7 +558,7 @@
 		</div>
 	</div>
 
-	<!-- <div id="fh5co-testimonial" style="background: url('images/background/repeat-background/so-white.png'); background-repeat:repeat; border-top: 1px solid #f2f2f2">
+	<div id="fh5co-testimonial" style="background: url('images/background/repeat-background/so-white.png'); background-repeat:repeat; border-top: 1px solid #f2f2f2; padding: 15em 0;">
 		<img height="400" class="flower-bukutamu-right" style="right: 0;top: 0;position: absolute;" src="images/background/flowers/top-right-3.svg">
 		<img height="400" class="flower-bukutamu-left" style="position: absolute; left: 0; bottom: 0" src="images/background/flowers/bottom-left-3.svg">
 		<div class="container">
@@ -560,20 +569,74 @@
 				</div>
 			</div>
 			
+			<section class="bg-light-dark my-0 pb-0 pt-3" id="comment">
+				<div class="container">
+					<div class="border rounded-4 shadow p-4 mb-4">
+						<h2 class="font-esthetic text-center mt-2 mb-4" style="font-size: 2.25rem;">Ucapan &amp; Doa</h2>
+			
+						<!-- Nama -->
+						<div class="mb-4" style="margin-top: 10px;">
+							<label for="form-name" class="form-label fw-semibold my-2">
+								<i class="fa-solid fa-user me-2"></i>Nama
+							</label>
+							<input type="text" class="form-control shadow-sm rounded-4 p-3" id="form-name" minlength="2" maxlength="50" placeholder="Isikan Nama Anda" autocomplete="name">
+						</div>
+			
+						<!-- Presensi (Radio Buttons) -->
+						<div class="mb-4" style="margin-top: 10px;">
+							<label class="form-label fw-semibold my-2">
+								<i class="fa-solid fa-person-circle-question me-2"></i>Presensi
+							</label>
+							<div class="form-check">
+								<input class="form-check-input" type="radio" name="form-presence" id="presence-attend" value="1">
+								<label class="form-check-label" for="presence-attend">Datang</label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input" type="radio" name="form-presence" id="presence-absent" value="2">
+								<label class="form-check-label" for="presence-absent">Berhalangan</label>
+							</div>
+						</div>
+			
+						<!-- Pesan -->
+						<div class="mb-4" style="margin-top: 10px;">
+							<label for="form-message" class="form-label fw-semibold my-2">
+								<i class="fa-solid fa-comment-dots me-2"></i>Pesan
+							</label>
+							<textarea class="form-control shadow-sm rounded-4 p-3" id="form-message" rows="3" minlength="2" maxlength="200" placeholder="Kirim Pesan Anda"></textarea>
+						</div>
+			
+						<!-- Submit Button (Centered) -->
+						<div class="text-center" style="margin-top: 10px;">
+							<button class="btn btn-primary btn-lg rounded-4 shadow m-1" onclick="undangan.comment.send(this)">
+								<i class="fa-solid fa-paper-plane me-2"></i>Send
+							</button>
+						</div>
+					</div>
+			
+					<!-- Comments -->
+					<div class="py-3" id="comments" data-loading="false"></div>
+			
+					<!-- Pagination -->
+					<nav class="d-flex d-none justify-content-center mt-1 mb-0" id="pagination"></nav>
+				</div>
+			</section>
+			
+			<h2 class="font-esthetic text-center mt-5 mb-4" style="font-size: 2.25rem; margin-top: 50px;">Response</h2>
+			
 			<div class="row animate-box">
 				<div class="col-md-8 ">
 					<div class="list-group"></div>
 				</div>
 			</div>
 
-			<div id="button-send" class="text-center animate-box">
+			<!-- <div id="button-send" class="text-center animate-box">
 				<a href="https://github.com/maulidandev/nikah-rehan-maulidan/issues/new/choose" target="_blank" class="btn btn-primary btn-sm">Kirim Ucapan</a><br>
 				<i style="font-size: 15px">Note : Hanya bisa diisi jika mempunyai akun github. Jika belum ada silahkan daftar terlebih dahulu</i>
-			</div>
+			</div> -->
 		</div>
-	</div> -->
+	</div>
 
-	<footer id="fh5co-footer" role="contentinfo" style="background: url('images/background/repeat-background/witewall_3.png'); background-repeat:repeat ">
+	<footer id="fh5co-footer" role="contentinfo" style="background: url('images/background/repeat-background/witewall_3.png'); background-repeat:repeat; padding-bottom: 15em;">
 		<div class="container">
 			<img class="flower-1" style="position: absolute; right: 0; bottom: 0" src="images/background/flowers/bottom-right-1.svg">
 			<img class="flower-1" style="position: absolute; left: 0; bottom:0" src="images/background/flowers/bottom-left-1.svg">
@@ -587,7 +650,7 @@
 					</p>
 					<img src="images/dejanajeng/PhotoCoverCenterFlat.png" width="100" height="100">
 					<br>
-					<h1 style="font-family: 'Satisfy', Arial, serif">Dejan & Ajeng</h1>
+					<h1 style="font-family: 'Satisfy', Arial, serif; color: #113468; padding-top: 10px">Dejan & Ajeng</h1>
 				</div>
 			</div>
 
@@ -599,6 +662,76 @@
 <!--<div class="gototop js-top">
 	<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
 </div>-->
+<script type="module">
+	// Import the functions you need from the SDKs you need
+	import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+	import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
+	import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
+	// TODO: Add SDKs for Firebase products that you want to use
+	// https://firebase.google.com/docs/web/setup#available-libraries
+  
+	// Your web app's Firebase configuration
+	// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+	const firebaseConfig = {
+	  apiKey: "AIzaSyAtbFpeT0f1TpHZIIQdTkUzIKbmV2y6i0A",
+	  authDomain: "d-project-27d9c.firebaseapp.com",
+	  projectId: "d-project-27d9c",
+	  storageBucket: "d-project-27d9c.firebasestorage.app",
+	  messagingSenderId: "1036388638235",
+	  appId: "1:1036388638235:web:1b36a3ddb5015cce8ca2be",
+	  measurementId: "G-JFZYXBF2LB"
+	};
+  
+	// Initialize Firebase
+	const app = initializeApp(firebaseConfig);
+	const analytics = getAnalytics(app);
+	const db = getFirestore(app);
+
+	$(document).ready(function () {
+		let commentsContainer = $("#fh5co-testimonial .list-group");
+		commentsContainer.empty(); // Clear previous data
+
+		console.log("Fetching data from Firebase...");
+
+		// Fetch wedding comments from Firebase
+		db.ref("wedding").orderByChild("timestamp").on("value", snapshot => {
+			console.log("Data snapshot received:", snapshot.exists());
+
+			commentsContainer.empty(); // Clear before appending new data
+
+			if (!snapshot.exists()) {
+				console.warn("No comments found in Firebase.");
+				commentsContainer.html('<p style="color: gray;">No comments yet.</p>');
+				return;
+			}
+
+			snapshot.forEach(childSnapshot => {
+				let data = childSnapshot.val();
+				console.log("Comment Data:", data); // Log each comment data
+
+				let user = data.name || "Anonymous";
+				let label = data.label || "Tanpa Keterangan";
+				let commentHtml = new showdown.Converter().makeHtml(data.comment || "No Comment");
+
+				let item = `
+					<a class="list-group-item">
+						<div class="name">
+							<span class="strong" style="font-size: 24px">${user}</span>
+							<span class="label label-success">${label}</span>
+						</div>
+						<hr style="margin-top: 0;">
+						<div class="comment">${commentHtml}</div>
+					</a>
+				`;
+
+				commentsContainer.append(item);
+			});
+		}, error => {
+			console.error("Error fetching data:", error);
+			commentsContainer.html('<p style="color: red;">Failed to load comments.</p>');
+		});
+	});
+  </script>
 
 <!-- jQuery -->
 <script src="js/jquery.min.js"></script>
@@ -666,19 +799,22 @@
 		}*/
 	});
 
-	$.get( "https://api.github.com/repos/ngodingsolusi/the-wedding-of-rehan-maulidan/issues?state=all&per_page", function( data ) {
-		for (let i = 0; i < data.length; i++){
-			const item = `
-				<a class="list-group-item">
-					<div class="name"><span class="strong" style="font-size: 24px">${data[i].user.login}</span> <span class="label label-success">${data[i].labels.length > 0 ? data[i].labels[0].name : 'Tanpa Keterangan'}</span></div>
-					<hr style="margin-top: 0;">
-					<div class="comment">${new showdown.Converter().makeHtml(data[i].body)}</div>
-				</a>
-			`;
 
-			$("#fh5co-testimonial .list-group").append(item);
-		}
-	});
+
+
+	// $.get( "https://api.github.com/repos/ngodingsolusi/the-wedding-of-rehan-maulidan/issues?state=all&per_page", function( data ) {
+	// 	for (let i = 0; i < data.length; i++){
+	// 		const item = `
+	// 			<a class="list-group-item">
+	// 				<div class="name"><span class="strong" style="font-size: 24px">${data[i].user.login}</span> <span class="label label-success">${data[i].labels.length > 0 ? data[i].labels[0].name : 'Tanpa Keterangan'}</span></div>
+	// 				<hr style="margin-top: 0;">
+	// 				<div class="comment">${new showdown.Converter().makeHtml(data[i].body)}</div>
+	// 			</a>
+	// 		`;
+
+	// 		$("#fh5co-testimonial .list-group").append(item);
+	// 	}
+	// });
 
 	function scrollToElement(el) {
 		$("html, body").animate({ scrollTop: $(`#${el}`).offset().top }, 1000);

@@ -1,13 +1,12 @@
 const express = require('express');
 const path = require('path');
+const serverless = require('serverless-http');
 require('dotenv').config();
 
 const app = express();
 
-// Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
-// API endpoint to serve Firebase config
 app.get('/config', (req, res) => {
   res.json({
     firebaseApiKey: process.env.FIREBASE_API_KEY,
@@ -20,10 +19,13 @@ app.get('/config', (req, res) => {
   });
 });
 
-// Serve the index.html file when the root URL is accessed
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 
-// Instead of `app.listen()`, export `app`
+app.get('/debug-path', (req, res) => {
+  res.json({ staticPath: path.join(__dirname, '..', 'public') });
+});
+
 module.exports = app;
+module.exports.handler = serverless(app);

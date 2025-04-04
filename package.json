@@ -8,9 +8,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
+    "start": "node api/server.js",
     "build": "echo 'No build step required'",
-    "dev": "nodemon server.js",
+    "dev": "vercel dev",
     "vercel-build": "echo 'No build step required'"
   },
   "repository": {
@@ -26,7 +26,8 @@
   "homepage": "https://github.com/deanfirdianza/wedding-ngodingsolusi#readme",
   "dependencies": {
     "dotenv": "^16.4.7",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "serverless-http": "^3.2.0"
   },
   "devDependencies": {
     "lite-server": "^2.6.1",

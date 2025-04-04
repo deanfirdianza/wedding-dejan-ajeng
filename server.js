@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-require('dotenv').config();  // Load environment variables from .env file
+require('dotenv').config();
 
 const app = express();
 
@@ -25,8 +25,5 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Start the server
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
-});
+// Instead of `app.listen()`, export `app`
+module.exports = app;

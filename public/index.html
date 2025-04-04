@@ -113,7 +113,6 @@
 			}
 		});
 	</script>
-	
 
 </head>
 <body>
@@ -242,7 +241,8 @@
 					<div class="simply-countdown simply-countdown-wedding"></div>
 					<br>
 					<p>
-						<a href="https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=MGkxcHQzMjR1dHNydm51aDZza2o0NzFnOTEgMDllOGU5MzFmMGE3ZDIzYWQ1OTkzZWJmYTQyMzVhOTIzMmFiNjE2ZjgxZTMwYTE2ZjY5MmU3YzU1MmVjNDMwNkBn&tmsrc=09e8e931f0a7d23ad5993ebfa4235a9232ab616f81e30a16f692e7c552ec4306%40group.calendar.google.com" target="_blank" class="btn btn-primary btn-sm">Save the date</a><br>
+						<!-- <a href="https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=MGkxcHQzMjR1dHNydm51aDZza2o0NzFnOTEgMDllOGU5MzFmMGE3ZDIzYWQ1OTkzZWJmYTQyMzVhOTIzMmFiNjE2ZjgxZTMwYTE2ZjY5MmU3YzU1MmVjNDMwNkBn&tmsrc=09e8e931f0a7d23ad5993ebfa4235a9232ab616f81e30a16f692e7c552ec4306%40group.calendar.google.com" target="_blank" class="btn btn-primary btn-sm">Save the date</a><br> -->
+						<a id="saveTheDate" href="#" target="_blank" class="btn btn-primary btn-sm">Save the date</a><br>
 						<i style="font-size: 15px">*Klik tombol ini untuk menyimpan tanggal pada google kalender</i>
 					</p>
 				</div>
@@ -319,7 +319,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-8  text-center fh5co-heading animate-box">
-					<h2>Save The Date <a href="https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=MGkxcHQzMjR1dHNydm51aDZza2o0NzFnOTEgMDllOGU5MzFmMGE3ZDIzYWQ1OTkzZWJmYTQyMzVhOTIzMmFiNjE2ZjgxZTMwYTE2ZjY5MmU3YzU1MmVjNDMwNkBn&tmsrc=09e8e931f0a7d23ad5993ebfa4235a9232ab616f81e30a16f692e7c552ec4306%40group.calendar.google.com" class="btn btn-info"><i class="icon-download2"></i></a></h2>
+					<h2>Save The Date <a href="#" target="_blank" id="saveTheDate2" class="btn btn-info"><i class="icon-download2"></i></a></h2>
 				</div>
 			</div>
 			<div class="row">
@@ -691,6 +691,37 @@
 </div>-->
 
 </body>
+<script>
+	function generateGoogleCalendarLink(eventTitle, startDateTime, endDateTime, details, location) {
+	  const baseUrl = "https://www.google.com/calendar/render?action=TEMPLATE";
+	  const params = new URLSearchParams({
+		text: eventTitle,
+		dates: `${startDateTime}/${endDateTime}`,
+		details: details,
+		location: location
+	  });
+  
+	  return `${baseUrl}&${params.toString()}`;
+	}
+  
+	// Example: Event details
+	const eventTitle = "Akad Dean & Ajeng";
+	const startDateTime = "20250503T110000Z"; // YYYYMMDDTHHMMSSZ (UTC format)
+	const endDateTime = "20250503T140000Z";
+	const details =
+	`Bismillahirrahmanirrahim
+Kami mengundang Bapak/Ibu/Saudara/i untuk hadir di acara pernikahan kami. InsyaAllah akan diadakan di:
+📍 Bale Wedding Era Waluyo Baturraden, 3 Mei 2025 - 11:00
+Selengkapnya: https://bit.ly/akad-dejan-ajeng
+	
+Regards,
+Dejan dan Ajeng`;
+	const locationNew = "BALE WEDDING ERA WALUYO";
+  
+	// Set the generated link to the button
+	document.getElementById("saveTheDate").href = generateGoogleCalendarLink(eventTitle, startDateTime, endDateTime, details, locationNew);
+	document.getElementById("saveTheDate2").href = generateGoogleCalendarLink(eventTitle, startDateTime, endDateTime, details, locationNew);
+  </script>
 <script type="module">
 	// Import Firebase modules
 	import { 

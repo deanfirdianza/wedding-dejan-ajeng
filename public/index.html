@@ -109,6 +109,13 @@
 			} else {
 				document.getElementById('guest-name').textContent = 'Bapak/Ibu/Saudara/i';
 			}
+
+            const loveGiftParam = getQueryParam('lovegift');
+            const loveGiftSection = document.getElementById('fh5co-lovegift');
+
+            if (loveGiftParam === 'false' && loveGiftSection) {
+                loveGiftSection.remove(); // Removes the entire section
+            }
 		});
 	</script>
 
